@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload CSV</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background: #ff7eb3;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #ff5277;
+        }
+
+        .upload-label {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #ff7eb3;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload a CSV File</h2>
+        <p>Your output file will be available for download automatically.</p>
+
+        <form id="upload-form" action="/" method="POST" enctype="multipart/form-data">
+            <label for="file-upload" class="upload-btn">Choose File</label>
+            <input type="file" id="file-upload" name="file" class="file-input" required>
+            <br>
+            <label class="upload-label">No file selected</label>
+            <button type="submit" class="upload-btn">Upload</button>
+        </form>
+
+        <div class="progress-container" id="progress-container">
+            <div class="progress-circle"></div>
+            <p class="message">Processing file... Adding image URLs...</p>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#file-upload").change(function () {
+                let fileName = $(this).val().split("\\").pop();
+                $(".upload-label").text(fileName ? fileName : "No file selected");
+            });
+
+            $("#upload-form").submit(function () {
+                $(".upload-btn").prop("disabled", true);
+                $("#progress-container").fadeIn();
+            });
+        });
+    </script>
+</body>
+</html>
